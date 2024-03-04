@@ -10,8 +10,6 @@ on:
     tags:
       - v*
 
-
-
 permissions:
   contents: write
 
@@ -37,12 +35,13 @@ jobs:
         run: |
           echo "author=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
 
-
       - name: Create release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ github.ref_name }}
         run: |
+          # Generate unique tag name based on current timestamp
+          tag=$(date +'%Y%m%d%H%M%S')
           gh release create "$tag" \
               --repo="$GITHUB_REPOSITORY" \
               --title="${GITHUB_REPOSITORY#*/} ${tag#v}" \
