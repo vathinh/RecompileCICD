@@ -1,29 +1,61 @@
 package com.tvt.recompileapi;
 
-import com.tvt.recompileapi.dto.Todo;
-import org.springframework.web.reactive.function.client.WebClient;
+import com.tvt.recompileapi.dto.Result;
+import com.tvt.recompileapi.service.MailService;
+import com.tvt.recompileapi.service.WeatherCheckerService;
+import com.ulisesbocchio.jasyptspringboot.annotation.EnableEncryptableProperties;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-public class RecompileApplication {
+import reactor.core.publisher.Mono;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@SpringBootApplication
+@EnableEncryptableProperties
+public class RecompileApplication implements CommandLineRunner {
+
+    private final MailService mailService;
+    private final WeatherCheckerService weatherCheckerService;
+    private final String toEmail;
+
+    @Autowired
+    public RecompileApplication(MailService mailService, WeatherCheckerService weatherCheckerService, @Value("${to.email}") String toEmail) {
+        this.mailService = mailService;
+        this.weatherCheckerService = weatherCheckerService;
+        this.toEmail = toEmail;
+    }
+
     public static void main(String[] args) {
-        // Create WebClient instance
-        WebClient webClient = WebClient.create("https://jsonplaceholder.typicode.com");
+        SpringApplication.run(RecompileApplication.class, args);
+    }
 
-        // Fetch todos using WebClient
-        Todo[] todos = webClient.get()
-                .uri("/todos")
-                .retrieve()
-                .bodyToMono(Todo[].class)
-                .block();
+    @Override
+    public void run(String... args) {
+        Mono<List<Result>> resultFromWeather = weatherCheckerService.getWeatherWithMapstruct();
 
-        // Print todos
-        if (todos != null) {
-            for (Todo todo : todos) {
-                System.out.println(todo);
-            }
+        if (mailService != null) {
+            resultFromWeather.flatMap(results -> {
+                String concatenatedResults = results.stream()
+                        .map(Object::toString)
+                        .collect(Collectors.joining(", "));
+                System.out.println(concatenatedResults);
+                return mailService.sendMail(toEmail, "This is a test for weather", concatenatedResults)
+                        .doOnSuccess(mailSent -> {
+                            if (mailSent) {
+                                System.out.println("Mail sent successfully.");
+                            } else {
+                                System.out.println("Failed to send mail.");
+                            }
+                        });
+            }).then().block(); // Ensure all reactive operations complete before exiting
+            System.exit(0);
         } else {
-            System.out.println("No todos fetched!");
+            System.out.println("Mail service is not available!");
         }
-        System.exit(0);
-
     }
 }
