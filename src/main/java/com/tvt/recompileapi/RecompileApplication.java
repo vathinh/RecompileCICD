@@ -39,20 +39,14 @@ public class RecompileApplication implements CommandLineRunner {
         Mono<List<Result>> resultFromWeather = weatherCheckerService.getWeatherWithMapstruct();
 
         if (mailService != null) {
-            resultFromWeather.flatMap(results -> {
-                String concatenatedResults = results.stream()
-                        .map(Object::toString)
-                        .collect(Collectors.joining(", "));
-                System.out.println(concatenatedResults);
-                return mailService.sendMail(toEmail, "This is a test for weather", concatenatedResults)
-                        .doOnSuccess(mailSent -> {
-                            if (mailSent) {
-                                System.out.println("Mail sent successfully.");
-                            } else {
-                                System.out.println("Failed to send mail.");
-                            }
-                        });
-            }).then().block(); // Ensure all reactive operations complete before exiting
+            resultFromWeather.flatMap(results -> mailService.sendMail(toEmail, "This is a test for weather", results)
+                .doOnSuccess(mailSent -> {
+                    if (mailSent) {
+                        System.out.println("Mail sent successfully.");
+                    } else {
+                        System.out.println("Failed to send mail.");
+                    }
+                })).then().block(); // Ensure all reactive operations complete before exiting
             System.exit(0);
         } else {
             System.out.println("Mail service is not available!");

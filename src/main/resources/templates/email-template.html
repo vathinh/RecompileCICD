@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Results</title>
+</head>
+<body>
+<h2>Weather Results</h2>
+<table border="1">
+    <thead>
+    <tr>
+        <th>City Name</th>
+        <th>Country Code</th>
+        <th>Date Time</th>
+        <th>Weather</th>
+        <th>Temperature</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="result : ${weatherResults}">
+        <td th:text="${result.city_name}">City Name</td>
+        <td th:text="${result.country_code}">Country Code</td>
+        <td th:text="${result.datetime}">Date Time</td>
+        <td th:text="${result.weather.description}">Weather</td>
+        <td th:text="${result.temp + ' °C'}">Temperature</td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
