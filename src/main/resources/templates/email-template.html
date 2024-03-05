@@ -3,10 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <title>Weather Results</title>
+    <style>
+        body {
+            background-color: #f0f0f0; /* Set the background color of the body */
+            font-family: Arial, sans-serif; /* Optional: Set the font family */
+        }
+
+        h2 {
+            background-color: #ff69b4; /* Set the background color of the header */
+            color: white; /* Set the text color of the header */
+            padding: 10px; /* Optional: Add padding for better appearance */
+            border-radius: 10px; /* Make the header rounded */
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #ffc0cb; /* Set the background color of the table */
+            border-radius: 10px; /* Make the table rounded */
+        }
+
+        th, td {
+            border: 1px solid #dddddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #ffe4e1; /* Set the background color of even rows */
+        }
+        footer {
+            background-color: #ff7eb9; /* Set the background color of the footer */
+            color: white; /* Set the text color of the footer */
+            padding: 10px;
+            text-align: center;
+            border-radius: 10px; /* Make the footer rounded */
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-<h2>Weather Results</h2>
-<table border="1">
+<h2>Weather Forecast For 옌니</h2>
+<table>
     <thead>
     <tr>
         <th>City Name</th>
@@ -26,5 +67,8 @@
     </tr>
     </tbody>
 </table>
+<footer>
+    Weather results provided by VT
+</footer>
 </body>
 </html>
