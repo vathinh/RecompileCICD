@@ -14,6 +14,7 @@
         <th>Date Time</th>
         <th>Weather</th>
         <th>Temperature</th>
+        <th>Icon</th>
     </tr>
     </thead>
     <tbody>
@@ -23,6 +24,12 @@
         <td th:text="${result.datetime}">Date Time</td>
         <td th:text="${result.weather.description}">Weather</td>
         <td th:text="${result.temp + ' °C'}">Temperature</td>
+        <td>
+            <img th:src="|data:image/png;base64,${result.weather.icon}|" alt="Weather Icon"/>
+        </td>
+
+
+
     </tr>
     </tbody>
 </table>
