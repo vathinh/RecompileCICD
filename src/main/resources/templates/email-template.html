@@ -29,7 +29,7 @@
         th, td {
             border: 1px solid #dddddd;
             padding: 8px;
-            text-align: left;
+            text-align: center;
         }
 
         tr:nth-child(even) {
@@ -60,11 +60,14 @@
         }
 
         .sunny-message {
-            background-color: #FFFF99; /* Light yellow for sunny messages */
+            background-color: #fafac1; /* Light yellow for sunny messages */
         }
 
         .windy-message {
-            background-color: #00CED1; /* Turquoise for windy messages */
+            background-color: #5dadd9; /* Turquoise for windy messages */
+        }
+        .freeze-message {
+            background-color: #98b4e3; /* Turquoise for windy messages */
         }
     </style>
 
@@ -91,6 +94,15 @@
     </tr>
     </tbody>
 </table>
+
+<!-- Handle specific messages based on weather temperature -->
+<div th:each="result : ${weatherResults}">
+    <div th:with="temp=${result.temp}">
+        <p th:if="${temp >= 0 && temp <= 15}" class="message freeze-message">Có <span th:text="${temp}"></span> àaa lạnh lúm ó elms. Em nhớ mặc ấm thiệt ấm nhaaaa</p>
+        <p th:if="${temp > 15 && temp <= 20}" class="message windy-message">Khí chời <span th:text="${temp}"></span> mát mẻ dễ đi chơi để chụp hình đẹp đẹp gửi anh nè <3</p>
+        <p th:if="${temp > 20}" class="message sunny-message">Chời hong lạnh ó em iu. <span th:text="${temp}"></span> Nhưng mà mặc đồ ngắn là coi chừnk anh à....</p>
+    </div>
+</div>
 
 <!-- Handle specific messages for different weather codes -->
 <div th:each="result : ${weatherResults}">
