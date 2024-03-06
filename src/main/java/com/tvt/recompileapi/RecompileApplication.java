@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SpringBootApplication
 @EnableEncryptableProperties
@@ -39,7 +38,7 @@ public class RecompileApplication implements CommandLineRunner {
         Mono<List<Result>> resultFromWeather = weatherCheckerService.getWeatherWithMapstruct();
 
         if (mailService != null) {
-            resultFromWeather.flatMap(results -> mailService.sendMail(toEmail, "This is a test for weather", results)
+            resultFromWeather.flatMap(results -> mailService.sendMail(toEmail, "Weather Reminders", results)
                 .doOnSuccess(mailSent -> {
                     if (mailSent) {
                         System.out.println("Mail sent successfully.");
