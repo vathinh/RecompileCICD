@@ -1,6 +1,6 @@
 package com.tvt.recompileapi.service.impl;
 
-import com.tvt.recompileapi.config.WebClient;
+import com.tvt.recompileapi.config.WebClientTodo;
 import com.tvt.recompileapi.dto.Todo;
 import com.tvt.recompileapi.service.GetTodoService;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +12,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class GetTodoServiceImpl implements GetTodoService {
 
-    private WebClient userClient;
+    private WebClientTodo userClient;
 
-    public GetTodoServiceImpl(WebClient userClient) {
+    public GetTodoServiceImpl(WebClientTodo userClient) {
         this.userClient = userClient;
     }
 

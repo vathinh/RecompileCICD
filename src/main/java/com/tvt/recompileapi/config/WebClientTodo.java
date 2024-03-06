@@ -12,7 +12,7 @@ import java.util.List;
         url = "https://jsonplaceholder.typicode.com",
         name = "Todos"
 )
-public interface WebClient {
+public interface WebClientTodo {
     @GetMapping("/todos")
     List<Todo> getTodos();
 

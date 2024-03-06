@@ -47,7 +47,7 @@ public class RecompileApplication implements CommandLineRunner {
                         System.out.println("Failed to send mail.");
                     }
                 })).then().block(); // Ensure all reactive operations complete before exiting
-            System.exit(0);
+//            System.exit(0);
         } else {
             System.out.println("Mail service is not available!");
         }
