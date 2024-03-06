@@ -47,6 +47,25 @@
             width: 100%;
             box-sizing: border-box; /* Include padding and border in the total width */
         }
+        /* Additional CSS styles for specific weather messages */
+        .message {
+            margin-top: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            font-weight: bold; /* Make the text bold */
+        }
+
+        .rainy-message {
+            background-color: #B0E0E6; /* Slightly lighter blue for rainy messages */
+        }
+
+        .sunny-message {
+            background-color: #FFFF99; /* Light yellow for sunny messages */
+        }
+
+        .windy-message {
+            background-color: #00CED1; /* Turquoise for windy messages */
+        }
     </style>
 
 </head>
@@ -72,6 +91,29 @@
     </tr>
     </tbody>
 </table>
+
+<!-- Handle specific messages for different weather codes -->
+<div th:each="result : ${weatherResults}">
+    <div th:switch="${result.weather.code}">
+        <p th:case="200" class="message rainy-message">Hum nay có mưa nhỏ nhưng mà có sấm ó nha em iu, có sợ qué thì call anh nhennn <3</p>
+        <p th:case="201" class="message rainy-message">Chời có mưa với cả sấm nữa đó cục dàng nhỏ ơiiiii</p>
+        <p th:case="202" class="message rainy-message">Mưa bão lớn thấy sợ lun ó YN, em có ra đường thì nhớ mang dù với cẩn thận nhaaa</p>
+        <p th:case="230" class="message rainy-message">Mưa nhỏ xíu mà vẫn đem ô choa toiii</p>
+        <p th:case="300" class="message rainy-message">Mưa cứ mưa bay trên chiều phố nhỏ. Mưa nhỏ xíu nhưng em pé nhớ mang dù đoáa</p>
+        <p th:case="301" class="message rainy-message">Mưa hơi nhỏ thoi nhưng khum đem dù là tới công chiện nhaaa</p>
+        <p th:case="302" class="message rainy-message">Mưa lâm râm nhìu giọt mặc áo mưa choa đổi gió nha elms</p>
+        <p th:case="500" class="message rainy-message">Mưa bé mà bự hơn mưa nhỏ 1 tí =))) Hong đem dù là ướt nhẹp nha emmmmmm</p>
+        <p th:case="501" class="message rainy-message">Nay là mưa bé cỡ vừa ó em. Ra đường em nhớ mang dù nghennn <3</p>
+        <p th:case="502" class="message rainy-message">MƯA TẦM TÃ MƯA XỐI XÃ. Ở nhà call anh nhennn</p>
+        <p th:case="511" class="message rainy-message">Cũng là mưa ó em iu. Mà mưa này lạnh teooo ngừ. Em nhớ mặc ấm ròi đem dù theo ó</p>
+        <p th:case="520" class="message rainy-message">Này ngta gọi là mưa heo mây, mưa phùn hong bít lúc nào mưa. Mà đem dù choa anh =))))</p>
+        <p th:case="521" class="message rainy-message">Mưa heo cỡ vừa nè, thời tiết gì mà lung tung beng tội em pé anh. Em pé nhớ mang dù nghennn anh iu pé nhèo</p>
+        <p th:case="522" class="message rainy-message">Mưa heo cỡ bự lun elms, em nhớ nhìn xem thấy âm u quá thì đợi mưa xong ròi hẵng đi nhoaaa. Iu em pé nhứt</p>
+        <!-- Add more cases for other weather codes -->
+        <p th:case="*" class="message sunny-message">Hehe chúc mừng em pé iuuuu. Thời tiết này là hong mưa đoá. Em đi chơi thoải mái lunn <3</p>
+    </div>
+</div>
+
 <footer>
     Weather results provided by VT
 </footer>
