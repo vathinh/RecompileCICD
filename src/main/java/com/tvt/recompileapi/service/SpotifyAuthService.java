@@ -7,4 +7,6 @@ import reactor.core.publisher.Mono;
 public interface SpotifyAuthService {
     Mono<AccessTokenResponse> getToken();
 
+    Mono<SpotifyShowResponse> getPlaylistItems();
+
 }

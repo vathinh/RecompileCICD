@@ -1,6 +1,7 @@
 package com.tvt.recompileapi.service.impl;
 
 import com.tvt.recompileapi.dto.AccessTokenResponse;
+import com.tvt.recompileapi.dto.SpotifyShowResponse;
 import com.tvt.recompileapi.service.SpotifyAuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -34,5 +35,19 @@ public class SpotifyAuthServiceImpl implements SpotifyAuthService {
                 .body(BodyInserters.fromFormData("grant_type", "client_credentials"))
                 .retrieve()
                 .bodyToMono(AccessTokenResponse.class);
+    }
+
+    @Override
+    public Mono<SpotifyShowResponse> getPlaylistItems() {
+        return getToken().flatMap(accessTokenResponse -> {
+            String bearerToken = "Bearer " + accessTokenResponse.getAccess_token();
+
+            WebClient playlistWebClient = WebClient.create("https://api.spotify.com");
+            return playlistWebClient.get()
+                    .uri("/v1/playlists/{playlist_id}/tracks", "2FJrcIF7oknARHUAgYlWTE")
+                    .header(HttpHeaders.AUTHORIZATION, bearerToken)
+                    .retrieve()
+                    .bodyToMono(SpotifyShowResponse.class);
+        });
     }
 }

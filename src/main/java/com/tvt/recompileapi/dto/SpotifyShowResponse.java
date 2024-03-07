@@ -16,5 +16,5 @@ public class SpotifyShowResponse {
     private int offset;
     private String previous;
     private int total;
-    private List<SpotifyShowItem> items;
+    private List<Items> items;
 }
