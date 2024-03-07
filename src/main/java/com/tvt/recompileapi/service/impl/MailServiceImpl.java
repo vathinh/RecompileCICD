@@ -32,7 +32,7 @@ public class MailServiceImpl implements MailService {
     public Mono<Boolean> sendMail(String to, String subject, List<Result> weatherResults) {
         MimeMessagePreparator mailMessage = mimeMessage -> {
             MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true, StandardCharsets.UTF_8.name());
-            message.setFrom(senderEmail, "Auto Email By Github");
+            message.setFrom(senderEmail, "VT GỬI YN");
             message.addTo(to);
             message.setSubject(subject);
 
