@@ -53,5 +53,14 @@ jobs:
           java-version: '17'
           distribution: 'adopt'
 
-      - name: Build Spring Boot application
-        run: ./mvnw jasypt:decrypt -Djasypt.encryptor.password=${{ secrets.JAS_PWD }} -Djasypt.plugin.path=file:src/main/resources/application.properties clean compile exec:java
+      - name: Build Spring Boot application with retries
+        run: |
+          retries=3
+          success=false
+          until $success || [ $retries -eq 0 ]; do
+            ./mvnw jasypt:decrypt -Djasypt.encryptor.password=${{ secrets.JAS_PWD }} -Djasypt.plugin.path=file:src/main/resources/application.properties clean compile exec:java && success=true || ((retries--))
+          done
+          if ! $success; then
+            echo "Failed to build Spring Boot application after multiple retries"
+            exit 1
+          fi
