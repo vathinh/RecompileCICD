@@ -1,7 +1,6 @@
 package com.tvt.recompileapi.service.impl;
 
-import com.tvt.recompileapi.dto.AccessTokenResponse;
-import com.tvt.recompileapi.dto.SpotifyShowResponse;
+import com.tvt.recompileapi.dto.*;
 import com.tvt.recompileapi.service.SpotifyAuthService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
@@ -10,7 +9,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Objects;
+import java.util.Random;
 
 @Service
 public class SpotifyAuthServiceImpl implements SpotifyAuthService {
@@ -50,4 +53,24 @@ public class SpotifyAuthServiceImpl implements SpotifyAuthService {
                     .bodyToMono(SpotifyShowResponse.class);
         });
     }
+
+    @Override
+    public Mono<Song> getRandomTrack() {
+        return getPlaylistItems()
+                .map(SpotifyShowResponse::getItems)
+                .flatMapMany(Flux::fromIterable)
+                .map(Items::getTrack)
+                .map(track -> {
+                    Song song = new Song();
+                    song.setSongName(track.getName());
+                    song.setSongUrl(track.getExternal_urls().getSpotify());
+                    return song;
+                }).collectList()
+                .flatMap(songs -> {
+                    int random = new Random().nextInt(songs.size());
+                    return Mono.just(songs.get(random));
+                });
+
+    }
+
 }

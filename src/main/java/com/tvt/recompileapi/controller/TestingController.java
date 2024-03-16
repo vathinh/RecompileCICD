@@ -2,6 +2,7 @@ package com.tvt.recompileapi.controller;
 
 
 import com.tvt.recompileapi.dto.AccessTokenResponse;
+import com.tvt.recompileapi.dto.Song;
 import com.tvt.recompileapi.dto.SpotifyShowResponse;
 import com.tvt.recompileapi.service.SpotifyAuthService;
 import lombok.RequiredArgsConstructor;
@@ -24,4 +25,11 @@ public class TestingController {
     public Mono<SpotifyShowResponse> getPlaylist() {
         return spotifyAuthService.getPlaylistItems();
     }
+
+    @GetMapping("/getRandomTrack")
+    public Mono<Song> getRandomTrack() {
+        return spotifyAuthService.getRandomTrack();
+    }
+
+
 }

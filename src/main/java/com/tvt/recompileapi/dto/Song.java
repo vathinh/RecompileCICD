@@ -1,15 +1,13 @@
 package com.tvt.recompileapi.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
-@Data
 @AllArgsConstructor
+@Data
 @NoArgsConstructor
-public class Items {
-    public Track track;
+public class Song {
+    private String songUrl;
+    private String songName;
 }
